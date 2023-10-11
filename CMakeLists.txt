@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15)
 
 #! CHANGE YOUR PROJECT NAME
 #  It is used as your project's main executable name. 
-set(PROJECT_NAME template)
+set(PROJECT_NAME myshell)
 project(${PROJECT_NAME} C CXX) # project(${PROJECT_NAME} C CXX ASM)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -55,15 +55,23 @@ include(cmake/CompilerWarnings.cmake)
 ##########################################################
 
 #! Project main executable source compilation
+set(CLASSDIRS options_parser myshell command internal-commands prompt-putter history-saver)
 add_executable(${PROJECT_NAME} main.cpp
-				options_parser/options_parser.cpp options_parser/options_parser.h)
+				options_parser/options_parser.cpp options_parser/options_parser.h
+		myshell/AbstractRunner.cpp myshell/AbstractRunner.hpp
+		command/Command.cpp command/Command.hpp command/InternalCommand.cpp command/InternalCommand.hpp command/ExternalCommand.cpp command/ExternalCommand.hpp command/ScriptCommand.cpp command/ScriptCommand.hpp
+		myshell/MyShell.cpp myshell/MyShell.hpp myshell/ScriptRunner.cpp myshell/ScriptRunner.hpp
+		internal-commands/internal_commands.cpp internal-commands/internal_commands.hpp
+		prompt-putter/PromptPutter.hpp prompt-putter/PromptPutterPOSIX.cpp prompt-putter/PromptPutterPOSIX.hpp prompt-putter/PromptPutterWindows.cpp prompt-putter/PromptPutterWindows.hpp history-saver/IHistorySaver.hpp history-saver/HistorySaverToFile.cpp history-saver/HistorySaverToFile.hpp)
 
 #! Put path to your project headers
-target_include_directories(${PROJECT_NAME} PRIVATE options_parser)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${CLASSDIRS})
 
 #! Add external packages
 # options_parser requires boost::program_options library
 find_package(Boost 1.71.0 COMPONENTS program_options system REQUIRED)
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} Boost::program_options Boost::system)
 
