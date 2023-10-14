@@ -32,5 +32,5 @@ int mexport(int argc, char *argv[]);
 
 int mdot_command(int argc, char *argv[]);
 
-
+static bool isValidName(std::string name);
 #endif //MYSHELL_INTERNAL_COMMANDS_POSIX_HPP
