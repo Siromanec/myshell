@@ -74,6 +74,8 @@ find_package(Boost 1.71.0 COMPONENTS program_options system REQUIRED)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} Boost::program_options Boost::system)
+target_link_libraries(${PROJECT_NAME} readline)
+
 
 ##########################################################
 # Fixed CMakeLists.txt part

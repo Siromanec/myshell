@@ -16,7 +16,6 @@ int main(int argc, char *argv[]) {
     command_line_options_t command_line_options{argc, argv};
     std::cout << "A flag value: " << command_line_options.get_A_flag() << std::endl;
     runner = std::make_unique<ScriptRunner>();
-
   }
   runner->run();
   return 0;
