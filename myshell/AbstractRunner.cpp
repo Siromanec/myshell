@@ -20,15 +20,15 @@ void AbstractRunner::run() {
 }
 
 std::unique_ptr<Command> AbstractRunner::getNextCommand() {
-  const auto commandArgv = readNext();
+  auto commandArgv = readNext();
   
   switch (getCommandType(commandArgv)) {
     case INTERNAL:
-      return std::make_unique<InternalCommand>(commandArgv);
+      return std::make_unique<InternalCommand>(std::move(commandArgv));
     case EXTERNAL:
-      return std::make_unique<ExternalCommand>(commandArgv);
+      return std::make_unique<ExternalCommand>(std::move(commandArgv));
     case SCRIPT:
-      return std::make_unique<ScriptCommand>(commandArgv);
+      return std::make_unique<ScriptCommand>(std::move(commandArgv));
     default:
       std::cerr << "*** unknown command type" << std::endl;
       throw std::exception();
