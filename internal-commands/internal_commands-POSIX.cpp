@@ -5,6 +5,7 @@
 #include "options_parser.h"
 #include <iostream>
 #include "unistd.h"
+#include "ScriptRunner.hpp"
 //TODO main-like implementations of internal commands
 
 static bool isValidName(std::string name) {
@@ -90,7 +91,7 @@ int mexit(int argc, char *argv[]) {
 
 int mecho(int argc, char *argv[]) {
     command_line_options_t commandLineOptions(argc, argv);
-    for (size_t i = 0; i < argc; ++i) {
+    for (size_t i = 1; i < argc; ++i) {
         std::cout << argv[i] << std::endl;
     }
     return 0;
@@ -100,7 +101,7 @@ int mexport(int argc, char *argv[]) {
     command_line_options_t commandLineOptions(argc, argv);
     std::string name, value;
     char * token;
-    for (size_t i = 0; i < argc; ++i) {
+    for (size_t i = 1; i < argc; ++i) {
         auto location = strchr(argv[i], '=');
         bool found = location != nullptr;
         if (found && (isalpha(argv[i][0]) || argv[i][0] == '_')) {
@@ -129,4 +130,8 @@ int mexport(int argc, char *argv[]) {
         }
     }
     return 0;
+}
+
+int mdot_command(int argc, char *argv[]) {
+    ScriptRunner(argc - 1, argv + 1).run();
 }
