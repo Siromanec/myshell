@@ -70,10 +70,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CLASSDIRS})
 
 #! Add external packages
 # options_parser requires boost::program_options library
-find_package(Boost 1.71.0 COMPONENTS program_options system REQUIRED)
+find_package(Boost 1.71.0 COMPONENTS program_options system filesystem REQUIRED)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} Boost::program_options Boost::system)
+target_link_libraries(${PROJECT_NAME} Boost::program_options Boost::system Boost::filesystem)
 target_link_libraries(${PROJECT_NAME} readline)
 
 
