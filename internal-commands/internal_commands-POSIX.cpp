@@ -46,3 +46,18 @@ int mcd(int argc, char *argv[]) {
     }
     return 0;
 }
+
+int mexit(int argc, char *argv[]) {
+    command_line_options_t commandLineOptions(argc, argv);
+    if (argc == 1){
+        exit(EXIT_SUCCESS);
+    }
+    for(size_t i = 0; i < strlen(argv[1]); ++i) {
+        if(!isdigit(argv[1][i])) {
+            std::cerr << "mexit: " << argv[1]<< ": numeric argument required" << std::endl;
+            errno = -1;
+            exit(EXIT_FAILURE);
+        }
+    }
+    exit(atoi(argv[1]));
+}
