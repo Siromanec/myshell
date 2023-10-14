@@ -61,3 +61,11 @@ int mexit(int argc, char *argv[]) {
     }
     exit(atoi(argv[1]));
 }
+
+int mecho(int argc, char *argv[]) {
+    command_line_options_t commandLineOptions(argc, argv);
+    for (size_t i = 0; i < argc; ++i) {
+        std::cout << argv[i] << std::endl;
+    }
+    return 0;
+}
