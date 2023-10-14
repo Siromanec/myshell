@@ -13,7 +13,7 @@ private:
     std::string buff;
 public:
     PromptPutterPOSIX(){
-        buff.resize(512);
+        buff.resize(100);
     }
   std::string put() override;
 };
