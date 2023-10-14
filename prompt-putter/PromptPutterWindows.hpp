@@ -6,9 +6,11 @@
 #define MYSHELL_PROMPTPUTTERWINDOWS_HPP
 
 
+#include "PromptPutter.hpp"
+
 class PromptPutterWindows: public PromptPutter {
 public:
-  void put() override;
+  std::string put() override;
 
 };
 

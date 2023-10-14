@@ -10,7 +10,7 @@
 
 class PromptPutterPOSIX: public PromptPutter {
 public:
-  void put() override;
+  std::string put() override;
 };
 
 

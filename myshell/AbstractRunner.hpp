@@ -8,6 +8,7 @@
 
 #include <memory>
 #include "Command.hpp"
+
 //TODO добавити парсинг стрічки на окремі слова
 class AbstractRunner {
 public:
@@ -17,8 +18,11 @@ public:
 
 
   virtual void run();
+
   virtual std::unique_ptr<Command> getNextCommand();
-  virtual std::vector<std::string> readNext()=0;
+
+  virtual std::vector<std::string> readNext() = 0;
+
   virtual ~AbstractRunner() = default;
 };
 
@@ -32,9 +36,8 @@ const std::vector<std::string> AbstractRunner::internal_commands{
     ".",
 };
 
-const std::string AbstractRunner::name {"myshell"};
-const std::string AbstractRunner::extension {".msh"};
-
+const std::string AbstractRunner::name{"myshell"};
+const std::string AbstractRunner::extension{".msh"};
 
 
 #endif //TEMPLATE_ABSTRACTMYSHELL_HPP

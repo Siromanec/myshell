@@ -8,10 +8,11 @@
 // with prompt putter we can control
 // 1. system specific prompt
 // 2. whether we should put it at all
+#include <string>
 class PromptPutter {
 
 public:
-  virtual void put(){};
+  virtual std::string put(){};
 };
 
 
