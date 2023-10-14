@@ -7,16 +7,15 @@
 #include "unistd.h"
 //TODO main-like implementations of internal commands
 
-int merrno(int argc, char *argv[]){
+int merrno(int argc, char *argv[]) {
     command_line_options_t command_line_options{argc, argv};
     int status, pid;
     pid = waitpid(-1, &status, 0);
-    if (pid == -1){
-        if (errno == ECHILD){
+    if (pid == -1) {
+        if (errno == ECHILD) {
             errno = 0;
             return 0;
-        }
-        else {
+        } else {
             errno = -1;
             return -1;
         }
@@ -24,6 +23,7 @@ int merrno(int argc, char *argv[]){
     if (WIFEXITED(status)) {
         return WEXITSTATUS(status);
     }
+}
 
 int mpwd(int argc, char *argv[]) {
     command_line_options_t commandLineOptions{argc, argv};
