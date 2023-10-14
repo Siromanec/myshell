@@ -1,8 +1,8 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#ifndef MYSHELL_INTERNAL_COMMANDS_HPP
-#define MYSHELL_INTERNAL_COMMANDS_HPP
+#ifndef MYSHELL_INTERNAL_COMMANDS_POSIX_HPP
+#define MYSHELL_INTERNAL_COMMANDS_POSIX_HPP
 
 #include "options_parser.h"
 #include <sys/types.h>
@@ -33,4 +33,4 @@ int mexport(int argc, char *argv[]);
 int mdot_command(int argc, char *argv[]);
 
 
-#endif //MYSHELL_INTERNAL_COMMANDS_HPP
+#endif //MYSHELL_INTERNAL_COMMANDS_POSIX_HPP
