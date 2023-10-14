@@ -9,7 +9,12 @@
 #include "PromptPutter.hpp"
 
 class PromptPutterPOSIX: public PromptPutter {
+private:
+    std::string buff;
 public:
+    PromptPutterPOSIX(){
+        buff.resize(512);
+    }
   std::string put() override;
 };
 
