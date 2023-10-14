@@ -1,9 +1,12 @@
-//
-// Created by ADMIN on 11-Oct-23.
-//
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #ifndef MYSHELL_INTERNAL_COMMANDS_HPP
 #define MYSHELL_INTERNAL_COMMANDS_HPP
+
+#include "options_parser.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 //"merrno",
 //"mpwd",
