@@ -3,9 +3,19 @@
 
 #include "internal_commands-POSIX.hpp"
 #include "options_parser.h"
-#include "iostream"
+#include <iostream>
 #include "unistd.h"
+#include "ScriptRunner.hpp"
 //TODO main-like implementations of internal commands
+
+static bool isValidName(std::string name) {
+    for(auto s: name) {
+        if(!isdigit(s) || !isalpha(s) || s != '_') {
+            return false;
+        }
+    }
+    return true;
+}
 
 int merrno(int argc, char *argv[]) {
     command_line_options_t command_line_options{argc, argv};
@@ -81,8 +91,47 @@ int mexit(int argc, char *argv[]) {
 
 int mecho(int argc, char *argv[]) {
     command_line_options_t commandLineOptions(argc, argv);
-    for (size_t i = 0; i < argc; ++i) {
+    for (size_t i = 1; i < argc; ++i) {
         std::cout << argv[i] << std::endl;
     }
     return 0;
+}
+
+int mexport(int argc, char *argv[]) {
+    command_line_options_t commandLineOptions(argc, argv);
+    std::string name, value;
+    char * token;
+    for (size_t i = 1; i < argc; ++i) {
+        auto location = strchr(argv[i], '=');
+        bool found = location != nullptr;
+        if (found && (isalpha(argv[i][0]) || argv[i][0] == '_')) {
+            token = strtok(argv[i], "=");
+            name = token;
+            token = strtok(NULL, "=");
+            if (token == NULL) {
+                value = " ";
+            }
+            else {
+                value = token;
+            }
+            if (isValidName(name)) {
+                setenv(name.c_str(), value.c_str(), true);
+            }
+            else {
+                std::cerr << "mexport: '" << name << "': not a valid identifier";
+                errno = -1;
+                return -1;
+            }
+        }
+        else {
+            std::cerr << "mexport: '" << argv[i] << "': not a valid identifier";
+            errno = -1;
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int mdot_command(int argc, char *argv[]) {
+    ScriptRunner(argc - 1, argv + 1).run();
 }
