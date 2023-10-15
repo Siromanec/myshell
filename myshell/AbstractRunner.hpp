@@ -9,6 +9,12 @@
 #include <memory>
 #include "Command.hpp"
 
+#include <iostream>
+#include <boost/filesystem.hpp>
+#include <regex>
+
+namespace bfs = boost::filesystem;
+
 //TODO добавити парсинг стрічки на окремі слова
 class AbstractRunner {
 public:
@@ -26,18 +32,9 @@ public:
   virtual ~AbstractRunner() = default;
 };
 
-const std::vector<std::string> AbstractRunner::internal_commands{
-    "merrno",
-    "mpwd",
-    "mcd",
-    "mexit",
-    "mecho",
-    "mexport",
-    ".",
-};
-
-const std::string AbstractRunner::name{"myshell"};
-const std::string AbstractRunner::extension{".msh"};
-
+std::regex wildcardToRegex(const std::string& wildcard, bool caseSensitive = true);
+bool wildmatch(const std::string& input, const std::string& wildcard);
+static bool has_wildcards(const bfs::wpath & path);
+std::vector<std::string> unfold_string(char* s);
 
 #endif //TEMPLATE_ABSTRACTMYSHELL_HPP
