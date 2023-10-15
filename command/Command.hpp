@@ -30,7 +30,7 @@ public:
     return cstrings.size();
   }
   virtual ~Command() = default;
-  virtual void execute() const = 0;
+  virtual void execute() = 0;
 
 
 };

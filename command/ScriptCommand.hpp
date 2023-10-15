@@ -12,7 +12,7 @@ class ScriptCommand: public Command {
 public:
   using Command::Command; //TODO rewrite for diffirend constructor (or maybe not) (myshell ./.msh vs ./.msh)
 
-  void execute() const override;
+  void execute() override;
 
 };
 

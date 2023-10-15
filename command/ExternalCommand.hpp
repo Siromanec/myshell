@@ -12,7 +12,7 @@ class ExternalCommand: public Command {
 public:
   using Command::Command;
 
-  void execute() const override;
+  void execute() override;
 };
 
 

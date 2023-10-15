@@ -7,13 +7,24 @@
 
 
 #include "Command.hpp"
+#include "unordered_map"
+#include "internal_commands-POSIX.hpp"
 //TODO implement selection of functions
 
 class InternalCommand: public Command {
+private:
+    std::unordered_map<std::string, std::function<int (int, char **)>> internalCommands = {
+            {"merrno", &merrno},
+            {"mpwd", &mpwd},
+            {"mcd", &mcd},
+            {"mexit", &mexit},
+            {"mecho", &mecho},
+            {"mexport", &mexport},
+            {".", &mdot_command}};
 public:
   using Command::Command;
 
-  void execute() const override;
+  void execute() override;
 };
 
 
