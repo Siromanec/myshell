@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 //TODO check if the argv[1] has extension ".msh" (defined in AbstractRunner) and pass the right arguments
     command_line_options_t command_line_options{argc, argv};
     std::cout << "A flag value: " << command_line_options.get_A_flag() << std::endl;
-    runner = std::make_unique<ScriptRunner>();
+    runner = std::make_unique<ScriptRunner>(argc, argv);
   }
   runner->run();
   return 0;
