@@ -3,3 +3,7 @@
 //
 
 #include "ScriptRunner.hpp"
+
+std::vector<std::string> ScriptRunner::readNext() {
+
+}

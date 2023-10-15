@@ -17,7 +17,7 @@ private:
     std::string scriptName;
     std::vector<std::string> scriptArguments;
 public:
-    ScriptRunner (int argc, char* argv[]) {
+    ScriptRunner (size_t argc, char* argv[]) {
         boost::filesystem::path path = argv[0];
         if( std::filesystem::exists(argv[0]) && path.extension() == AbstractRunner::extension) {
             scriptName = argv[0];

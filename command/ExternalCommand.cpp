@@ -35,7 +35,7 @@ void ExternalCommand::execute() {
             arg_for_c.push_back(s.c_str());
         arg_for_c.push_back(nullptr);
 
-        execve(victim_name.c_str(), const_cast<char* const*>(arg_for_c.data()), environ);
+        execvp(victim_name.c_str(), const_cast<char* const*>(arg_for_c.data()));
 
         std::cerr << "Parent: Failed to execute " << victim_name << " \n\tCode: " << errno << std::endl;
         exit(EXIT_FAILURE);   // exec never returns
