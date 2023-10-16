@@ -11,7 +11,7 @@
 
 static bool isValidName(std::string name) {
     for(auto s: name) {
-        if(!isdigit(s) || !isalpha(s) || s != '_') {
+        if(!isdigit(s) && !isalpha(s) && s != '_') {
             return false;
         }
     }
@@ -77,10 +77,15 @@ int mexit(int argc, char *argv[]) {
 
 int mecho(int argc, char *argv[]) {
     command_line_options_t commandLineOptions(argc, argv);
-    for (size_t i = 1; i < argc - 1; ++i) {
-        std::cout << argv[i] << " ";
+    if (argc > 1) {
+        for (size_t i = 1; i < argc - 1; ++i) {
+            std::cout << argv[i] << " ";
+        }
+        std::cout << argv[argc - 1] << std::endl;
     }
-    std::cout << argv[argc - 1] << std::endl;
+    else {
+        std::cout << std::endl;
+    }
     return 0;
 }
 
@@ -102,7 +107,7 @@ int mexport(int argc, char *argv[]) {
                 value = token;
             }
             if (isValidName(name)) {
-                setenv(name.c_str(), value.c_str(), true);
+                setenv(name.data(), value.data(), true);
             }
             else {
                 std::cerr << "mexport: '" << name << "': not a valid identifier";
