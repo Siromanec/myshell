@@ -125,34 +125,31 @@ std::vector<std::string> unfold_string(char *s) {
 #ifdef DEBUG
     std::cout << s << std::endl;
 #endif
-    const bfs::wpath path = s;
-    const bfs::wpath &parent_path = path.parent_path();
-    bool has_wildcard = has_wildcards(path.filename());
 
-    boost::filesystem::wpath canonicalPath;
-    try {
 
-        if (path != ".." && path != ".") {
+        const bfs::wpath path = s;
+        const bfs::wpath &parent_path = path.parent_path();
+        bool has_wildcard = has_wildcards(path.filename());
 
-            if (has_wildcard) {
-                std::vector<std::string> matching_files;
-                canonicalPath = boost::filesystem::canonical(parent_path);
-                const auto &wildcard = path.filename().string();
+        boost::filesystem::wpath canonicalPath;
 
-                for (auto &&x: bfs::directory_iterator(canonicalPath)) {
-                    if (wildmatch(x.path().filename().string(), wildcard))
-                        matching_files.push_back(x.path().string());
-                }
-                return matching_files;
-            } else {
-                canonicalPath = boost::filesystem::canonical(s);
-                return {canonicalPath.string()};
+        if (has_wildcard) {
+
+            std::vector<std::string> matching_files;
+            canonicalPath = boost::filesystem::canonical(parent_path);
+            const auto &wildcard = path.filename().string();
+
+            for (auto &&x: bfs::directory_iterator(canonicalPath)) {
+                if (wildmatch(x.path().filename().string(), wildcard))
+                    matching_files.push_back(x.path().string());
             }
+            return matching_files;
+
         }
-    }
-    catch (const std::exception &e) {
+
+    /*catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
-    }
+    }*/
     return {s};
 
 }
