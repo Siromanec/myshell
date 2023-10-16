@@ -52,6 +52,7 @@ const std::vector<std::string> AbstractRunner::internal_commands{
     "mecho",
     "mexport",
     ".",
+    ":",
 };
 
 const std::string AbstractRunner::name{"myshell"};
@@ -109,28 +110,32 @@ static bool has_wildcards(const bfs::wpath &path) {
 std::vector<std::string> unfold_string(char *s) {
 
 #ifdef DEBUG
-  std::cout << s << std::endl;
+  std::cerr << s << std::endl;
 #endif
-
-  if (has_wildcards(s)) {
-    std::vector<std::string> matching_files;
-
-    const bfs::wpath path{s};
-    auto canonicalPath = boost::filesystem::canonical(path.parent_path());
-    const auto wildcard = path.filename().string(); //using reference gives unexpected output (it changes with each call to filename().string())
-
-    for (const auto& x: bfs::directory_iterator(canonicalPath)) {
-      if (wildmatch(x.path().filename().string(), wildcard))
-        matching_files.push_back(x.path().filename().string());
-    }
-
-    if(!matching_files.empty())
-      return matching_files;
+  if(*s == '$' && (s = getenv(++s)) == nullptr){
+    return {{}};
   }
 
-  /*catch (const std::exception &e) {
-      std::cerr << e.what() << std::endl;
-  }*/
+  try {
+    if (has_wildcards(s)) {
+      std::vector<std::string> matching_files;
+
+      const bfs::wpath path{s};
+      auto canonicalPath = bfs::canonical(path.parent_path());
+      const auto wildcard = path.filename().string(); //using reference gives unexpected output (it changes with each call to filename().string())
+
+      for (const auto &x: bfs::directory_iterator(canonicalPath)) {
+        if (wildmatch(x.path().filename().string(), wildcard))
+          matching_files.push_back((path.parent_path() / x.path().filename()).string());
+      }
+
+      if (!matching_files.empty())
+        return matching_files;
+    }
+  }
+  catch (const boost::filesystem::filesystem_error &e) {
+//      std::cerr << e.what() << std::endl;
+  }
   return {s};
 
 }

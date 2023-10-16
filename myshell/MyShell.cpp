@@ -16,6 +16,7 @@ std::vector<std::string> MyShell::readNext(bool &flag) {
   
   if (line && *line)
       add_history (line);
+
   std::vector<std::string> argv;
 
   char* token;
@@ -26,6 +27,7 @@ std::vector<std::string> MyShell::readNext(bool &flag) {
     if(token[0] == '#'){
       break;
     }
+
     auto expanded = unfold_string(token);
     for(auto& s: expanded ){// should move the strings nice and easy
       argv.emplace_back(std::move(s));
