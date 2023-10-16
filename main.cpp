@@ -5,11 +5,15 @@
 #include "options_parser.h"
 #include "MyShell.hpp"
 #include "ScriptRunner.hpp"
+#include "PromptPutterPOSIX.hpp"
 
 int main(int argc, char *argv[]) {
   std::unique_ptr<AbstractRunner> runner;
-  if (argc == 0) {
-    runner = std::make_unique<MyShell>();
+  if (argc == 1) {
+    auto myshell = new MyShell();
+    auto prompt_putter = std::unique_ptr<PromptPutter>(new PromptPutterPOSIX());
+    myshell->setPromptPutter(std::move(prompt_putter));
+    runner = std::unique_ptr<AbstractRunner>(myshell);
   }
   else{
 //TODO check if the argv[1] has extension ".msh" (defined in AbstractRunner) and pass the right arguments

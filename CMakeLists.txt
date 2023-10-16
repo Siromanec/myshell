@@ -50,7 +50,7 @@ endif ()
 # Warnings as errors should be imported here -- do not move this line
 include(cmake/CompilerWarnings.cmake)
 #include(myshell/Cmake)
-include_directories(mycat)
+#include_directories(mycat)
 ##########################################################
 # Project files, packages, libraries and so on
 ##########################################################

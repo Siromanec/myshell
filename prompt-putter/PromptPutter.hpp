@@ -12,7 +12,7 @@
 class PromptPutter {
 
 public:
-  virtual std::string put(){};
+  virtual std::string put() = 0;
 };
 
 

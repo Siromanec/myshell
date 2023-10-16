@@ -10,6 +10,7 @@ std::vector<std::string> MyShell::readNext() {
   char * line;
   if((line = readline(promptPutter->put().c_str())) == NULL){
     std::cerr<< "MyShell::readNext: readline" << std::endl;
+    delete[] line;
     throw std::exception();
   }
   
