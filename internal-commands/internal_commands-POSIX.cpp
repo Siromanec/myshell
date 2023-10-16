@@ -77,10 +77,10 @@ int mexit(int argc, char *argv[]) {
 
 int mecho(int argc, char *argv[]) {
     command_line_options_t commandLineOptions(argc, argv);
-    for (size_t i = 1; i < argc; ++i) {
+    for (size_t i = 1; i < argc - 1; ++i) {
         std::cout << argv[i] << " ";
     }
-    std::cout << std::endl;
+    std::cout << argv[argc - 1] << std::endl;
     return 0;
 }
 
