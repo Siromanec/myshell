@@ -15,7 +15,7 @@ std::vector<std::string> MyShell::readNext() {
   }
   
   if (line && *line)
-    add_history (line);
+      add_history (line);
   std::vector<std::string> argv;
 
   char* token;
@@ -23,7 +23,7 @@ std::vector<std::string> MyShell::readNext() {
   token=strtok(line," ");
   while (token!= NULL)
   {
-    if(token[0] = '#'){
+    if(token[0] == '#'){
       break;
     }
     auto expanded = unfold_string(token);

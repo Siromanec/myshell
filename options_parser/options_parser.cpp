@@ -34,6 +34,17 @@ void command_line_options_t::parse(int ac, char **av) {
     }
 }
 
+void command_line_options_t::add_option_description(const std::string &optname, const std::string &description) {
+  opt_conf.add_options()
+      (optname.c_str(),
+       description.c_str());
+}
+void command_line_options_t::add_option_description(std::string optname, std::string description) {
+  opt_conf.add_options()
+      (optname.c_str(),
+       description.c_str());
+}
+
 void assert_file_exist(const std::string &f_name) {
     if (!std::filesystem::exists(f_name)) {
         throw std::invalid_argument("File " + f_name + " not found!");

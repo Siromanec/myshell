@@ -10,6 +10,8 @@ namespace fs = std::filesystem;
 
 
 CommandType getCommandType(const std::vector<std::string> &argv) {
+  if (argv.size() == 0)
+    return INTERNAL;
   const auto &commandName = argv[0];
 //  if (commandName == AbstractRunner::name)
 //    return SCRIPT;

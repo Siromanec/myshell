@@ -123,5 +123,8 @@ int mdot_command(int argc, char *argv[]) {
 }
 
 int mdummy_command(int argc, char *argv[]) {
+#ifdef DEBUG
+  std::cout<<"i did nothing"<<std::endl;
+#endif
     return 0;
 }

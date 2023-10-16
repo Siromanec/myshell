@@ -29,9 +29,14 @@ public:
     [[nodiscard]] bool get_A_flag() const { return A_flag; };
 
     void parse(int ac, char **av);
+
+    void add_option_description(std::string optname, std::string description);
+    void add_option_description(const std::string& optname, const std::string& description);
+
 private:
     bool A_flag = false;
     std::vector<std::string> filenames;
+
 
     boost::program_options::variables_map var_map{};
     boost::program_options::options_description opt_conf{
