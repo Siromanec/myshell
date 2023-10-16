@@ -121,3 +121,7 @@ int mexport(int argc, char *argv[]) {
 int mdot_command(int argc, char *argv[]) {
     ScriptRunner(argc - 1, argv + 1).run();
 }
+
+int mdummy_command(int argc, char *argv[]) {
+    return 0;
+}
