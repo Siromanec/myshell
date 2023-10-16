@@ -24,8 +24,8 @@ std::vector<std::string> MyShell::readNext() {
   while (token!= NULL)
   {
     auto expanded = unfold_string(token);
-    for(auto&& s: expanded ){// should move the strings nice and easy
-      argv.emplace_back(s);
+    for(auto& s: expanded ){// should move the strings nice and easy
+      argv.emplace_back(std::move(s));
     }
     token=strtok(NULL," ");
   }

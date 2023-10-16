@@ -56,6 +56,7 @@ include(cmake/CompilerWarnings.cmake)
 ##########################################################
 
 #! Project main executable source compilation
+
 set(CLASSDIRS options_parser myshell command internal-commands prompt-putter history-saver)
 add_executable(${PROJECT_NAME} main.cpp
 				options_parser/options_parser.cpp options_parser/options_parser.h
@@ -66,6 +67,9 @@ add_executable(${PROJECT_NAME} main.cpp
 		prompt-putter/PromptPutter.hpp prompt-putter/PromptPutterPOSIX.cpp prompt-putter/PromptPutterPOSIX.hpp prompt-putter/PromptPutterWindows.cpp prompt-putter/PromptPutterWindows.hpp history-saver/IHistorySaver.hpp history-saver/HistorySaverToFile.cpp history-saver/HistorySaverToFile.hpp)
 
 #! Put path to your project headers
+if (DEBUG)
+	add_definitions(-DDEBUG)
+endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CLASSDIRS})
 

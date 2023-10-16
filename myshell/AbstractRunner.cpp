@@ -21,7 +21,15 @@ void AbstractRunner::run() {
 
 std::unique_ptr<Command> AbstractRunner::getNextCommand() {
   auto commandArgv = readNext();
-  
+
+#ifdef DEBUG
+  std::cout<<"argv: ";
+  for (const auto& s: commandArgv){
+    std::cout<< s<<'\t';
+  }
+  std::cout<< std::endl;
+#endif
+
   switch (getCommandType(commandArgv)) {
     case INTERNAL:
       return std::make_unique<InternalCommand>(std::move(commandArgv));
@@ -79,7 +87,21 @@ bool wildmatch(const std::string& input, const std::string& wildcard)
     return std::regex_match(input, rgx);
 }
 static bool has_wildcards(const bfs::wpath & path){
+  //TODO підстановка вайлдкарлів
+//  return wildmatch();
 
+  for (size_t i = 0; i < path.string().size(); ++i) {
+    switch (path.string().at(i)) {
+      case '*':
+        return true;
+      case '?':
+        return true;
+      case '[':
+        return true;
+    }
+
+  }
+  return false;
 }
 
 /**
@@ -87,9 +109,11 @@ static bool has_wildcards(const bfs::wpath & path){
  * @param s
  * @return
  */
+
+
 std::vector<std::string> unfold_string(char* s){
-    //TODO підстановка вайлдкарлів
     //TODO
+  //TODO підстановка вайлдкарлів
 
     // не всі стрінги це шлях
 //  bfs::path(s);
@@ -98,6 +122,9 @@ std::vector<std::string> unfold_string(char* s){
 // if file ->wildcard sub
 //iterate over path directories
 // if any contain wildcard pattern -> seek and substitute
+#ifdef DEBUG
+std::cout << s << std::endl;
+#endif
     const bfs::wpath path = s;
     const bfs::wpath &parent_path = path.parent_path();
     bool has_wildcard = has_wildcards(path.filename());
