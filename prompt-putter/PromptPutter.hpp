@@ -1,19 +1,17 @@
-//
-// Created by ADMIN on 11-Oct-23.
-//
+#ifndef MYSHELL_PROMPTPUTTERPOSIX_HPP
+#define MYSHELL_PROMPTPUTTERPOSIX_HPP
 
-#ifndef MYSHELL_PROMPTPUTTER_HPP
-#define MYSHELL_PROMPTPUTTER_HPP
-
-// with prompt putter we can control
-// 1. system specific prompt
-// 2. whether we should put it at all
 #include <string>
-class PromptPutter {
 
+class PromptPutter {
+private:
+    std::string buff;
 public:
-  virtual std::string put() = 0;
+    PromptPutter(){
+        buff.resize(100);
+    }
+    std::string put();
 };
 
+#endif //MYSHELL_PROMPTPUTTERPOSIX_HPP
 
-#endif //MYSHELL_PROMPTPUTTER_HPP

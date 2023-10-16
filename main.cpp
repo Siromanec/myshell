@@ -5,13 +5,13 @@
 #include "options_parser.h"
 #include "MyShell.hpp"
 #include "ScriptRunner.hpp"
-#include "PromptPutterPOSIX.hpp"
+#include "PromptPutter.hpp"
 
 int main(int argc, char *argv[]) {
   std::unique_ptr<AbstractRunner> runner;
   if (argc == 1) {
     auto myshell = new MyShell();
-    auto prompt_putter = std::unique_ptr<PromptPutter>(new PromptPutterPOSIX());
+    auto prompt_putter = std::unique_ptr<PromptPutter>(new PromptPutter());
     myshell->setPromptPutter(std::move(prompt_putter));
     runner = std::unique_ptr<AbstractRunner>(myshell);
   }

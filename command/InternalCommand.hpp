@@ -20,7 +20,8 @@ private:
             {"mexit", &mexit},
             {"mecho", &mecho},
             {"mexport", &mexport},
-            {".", &mdot_command}};
+            {".", &mdot_command},
+            {":", &mdummy_command}};
 public:
   using Command::Command;
 
