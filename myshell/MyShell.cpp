@@ -23,6 +23,9 @@ std::vector<std::string> MyShell::readNext(bool &flag) {
   token=strtok(line," ");
   while (token!= NULL)
   {
+    if(token[0] = '#'){
+      break;
+    }
     auto expanded = unfold_string(token);
     for(auto& s: expanded ){// should move the strings nice and easy
       argv.emplace_back(std::move(s));
