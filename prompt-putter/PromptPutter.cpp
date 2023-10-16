@@ -2,11 +2,11 @@
 // Created by ADMIN on 11-Oct-23.
 //
 
-#include "PromptPutterPOSIX.hpp"
+#include "PromptPutter.hpp"
 #include "unistd.h"
 #include <iostream>
 
-std::string PromptPutterPOSIX::put() {
+std::string PromptPutter::put() {
     while(getcwd(buff.data(), buff.size()) == NULL) {
         if (errno == ERANGE) {
             buff.resize(buff.size() * 2);
