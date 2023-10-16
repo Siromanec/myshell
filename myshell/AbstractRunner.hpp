@@ -25,9 +25,9 @@ public:
 
   virtual void run();
 
-  virtual std::unique_ptr<Command> getNextCommand();
+  virtual std::unique_ptr<Command> getNextCommand(bool &flag);
 
-  virtual std::vector<std::string> readNext() = 0;
+  virtual std::vector<std::string> readNext(bool &flag) = 0;
 
   virtual ~AbstractRunner() = default;
 };

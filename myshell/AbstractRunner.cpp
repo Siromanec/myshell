@@ -10,37 +10,38 @@
 #include "ScriptCommand.hpp"
 
 void AbstractRunner::run() {
-  while(true) {
-    auto command = getNextCommand();
-    if (command == nullptr){ //TODO check if unique ptr can be nullptr
-      return;
+    bool flag = true;
+    while (flag) {
+        auto command = getNextCommand(flag);
+        if (command == nullptr) { //TODO check if unique ptr can be nullptr
+            return;
+        }
+        command->execute();
     }
-    command->execute();
-  }
 }
 
-std::unique_ptr<Command> AbstractRunner::getNextCommand() {
-  auto commandArgv = readNext();
+std::unique_ptr<Command> AbstractRunner::getNextCommand(bool &flag) {
+    auto commandArgv = readNext(flag);
 
 #ifdef DEBUG
-  std::cout<<"argv: ";
-  for (const auto& s: commandArgv){
-    std::cout<< s<<'\t';
-  }
-  std::cout<< std::endl;
+    std::cout<<"argv: ";
+    for (const auto& s: commandArgv){
+      std::cout<< s<<'\t';
+    }
+    std::cout<< std::endl;
 #endif
 
-  switch (getCommandType(commandArgv)) {
-    case INTERNAL:
-      return std::make_unique<InternalCommand>(std::move(commandArgv));
-    case EXTERNAL:
-      return std::make_unique<ExternalCommand>(std::move(commandArgv));
-    case SCRIPT:
-      return std::make_unique<ScriptCommand>(std::move(commandArgv));
-    default:
-      std::cerr << "*** unknown command type" << std::endl;
-      throw std::exception();
-  }
+    switch (getCommandType(commandArgv)) {
+        case INTERNAL:
+            return std::make_unique<InternalCommand>(std::move(commandArgv));
+        case EXTERNAL:
+            return std::make_unique<ExternalCommand>(std::move(commandArgv));
+        case SCRIPT:
+            return std::make_unique<ScriptCommand>(std::move(commandArgv));
+        default:
+            std::cerr << "*** unknown command type" << std::endl;
+            throw std::exception();
+    }
 }
 
 const std::vector<std::string> AbstractRunner::internal_commands{
@@ -56,10 +57,9 @@ const std::vector<std::string> AbstractRunner::internal_commands{
 const std::string AbstractRunner::name{"myshell"};
 const std::string AbstractRunner::extension{".msh"};
 
-std::regex wildcardToRegex(const std::string& wildcard, bool caseSensitive)
-{
+std::regex wildcardToRegex(const std::string &wildcard, bool caseSensitive) {
     // Note It is possible to automate checking if filesystem is case sensitive or not (e.g. by performing a test first time this function is ran)
-    std::string regexString{ wildcard };
+    std::string regexString{wildcard};
     // Escape all regex special chars:
     regexString = std::regex_replace(regexString, std::regex("\\\\"), "\\\\");
     regexString = std::regex_replace(regexString, std::regex("\\^"), "\\^");
@@ -81,27 +81,27 @@ std::regex wildcardToRegex(const std::string& wildcard, bool caseSensitive)
     return std::regex(regexString, caseSensitive ? std::regex_constants::ECMAScript : std::regex_constants::icase);
 }
 
-bool wildmatch(const std::string& input, const std::string& wildcard)
-{
+bool wildmatch(const std::string &input, const std::string &wildcard) {
     auto rgx = wildcardToRegex(wildcard);
     return std::regex_match(input, rgx);
 }
-static bool has_wildcards(const bfs::wpath & path){
-  //TODO підстановка вайлдкарлів
+
+static bool has_wildcards(const bfs::wpath &path) {
+    //TODO підстановка вайлдкарлів
 //  return wildmatch();
 
-  for (size_t i = 0; i < path.string().size(); ++i) {
-    switch (path.string().at(i)) {
-      case '*':
-        return true;
-      case '?':
-        return true;
-      case '[':
-        return true;
-    }
+    for (size_t i = 0; i < path.string().size(); ++i) {
+        switch (path.string().at(i)) {
+            case '*':
+                return true;
+            case '?':
+                return true;
+            case '[':
+                return true;
+        }
 
-  }
-  return false;
+    }
+    return false;
 }
 
 /**
@@ -111,9 +111,9 @@ static bool has_wildcards(const bfs::wpath & path){
  */
 
 
-std::vector<std::string> unfold_string(char* s){
+std::vector<std::string> unfold_string(char *s) {
     //TODO
-  //TODO підстановка вайлдкарлів
+    //TODO підстановка вайлдкарлів
 
     // не всі стрінги це шлях
 //  bfs::path(s);
@@ -123,7 +123,7 @@ std::vector<std::string> unfold_string(char* s){
 //iterate over path directories
 // if any contain wildcard pattern -> seek and substitute
 #ifdef DEBUG
-std::cout << s << std::endl;
+    std::cout << s << std::endl;
 #endif
     const bfs::wpath path = s;
     const bfs::wpath &parent_path = path.parent_path();
@@ -134,8 +134,8 @@ std::cout << s << std::endl;
 
         if (path != ".." && path != ".") {
 
-            if(has_wildcard){
-                std::vector< std::string > matching_files;
+            if (has_wildcard) {
+                std::vector<std::string> matching_files;
                 canonicalPath = boost::filesystem::canonical(parent_path);
                 const auto &wildcard = path.filename().string();
 
@@ -144,14 +144,13 @@ std::cout << s << std::endl;
                         matching_files.push_back(x.path().string());
                 }
                 return matching_files;
-            }
-            else{
+            } else {
                 canonicalPath = boost::filesystem::canonical(s);
                 return {canonicalPath.string()};
             }
         }
     }
-    catch (const std::exception& e) {
+    catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
     return {s};

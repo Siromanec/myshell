@@ -6,7 +6,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-std::vector<std::string> MyShell::readNext() {
+std::vector<std::string> MyShell::readNext(bool &flag) {
   char * line;
   if((line = readline(promptPutter->put().c_str())) == NULL){
     std::cerr<< "MyShell::readNext: readline" << std::endl;
