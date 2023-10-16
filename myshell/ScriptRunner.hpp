@@ -10,10 +10,12 @@
 #include <filesystem>
 #include <iostream>
 #include "boost/filesystem.hpp"
+#include <fstream>
 
 
 class ScriptRunner: public AbstractRunner {
 private:
+    std::fstream scriptFile;
     std::string scriptName;
     std::vector<std::string> scriptArguments;
 public:
@@ -30,8 +32,12 @@ public:
         for (size_t i = 1; i < argc; ++i) {
             scriptArguments.emplace_back(argv[i]);
         }
+        scriptFile.open(scriptName);
     }
-  virtual std::vector<std::string> readNext() override; //TODO use file lines
+    ~ScriptRunner() {
+        scriptFile.close();
+    }
+  virtual std::vector<std::string> readNext(bool &flag) override; //TODO use file lines
 };
 
 
