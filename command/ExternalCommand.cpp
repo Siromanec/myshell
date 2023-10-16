@@ -1,8 +1,11 @@
 //
 // Created by ADMIN on 11-Oct-23.
 //
+#include <unistd.h>
+#include <sys/wait.h>
 
 #include "ExternalCommand.hpp"
+
 
 void ExternalCommand::execute() {
     pid_t parent = getpid();

@@ -7,8 +7,7 @@
 
 
 #include "Command.hpp"
-#include <sys/wait.h>
-#include "iostream"
+#include <iostream>
 
 //TODO implement fork/exec stuff
 class ExternalCommand: public Command {
