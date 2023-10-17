@@ -7,10 +7,23 @@
 #include "unistd.h"
 #include "ScriptRunner.hpp"
 #include "AbstractRunner.hpp"
-#include <filesystem>
+#include "boost/program_options.hpp"
 //TODO main-like implementations of internal commands
+namespace po = boost::program_options;
 
-static bool isValidName(std::string name) {
+std::tuple<po::variables_map, po::options_description> get_variables_map (int argc, char *argv[]) {
+    po::options_description desc("Allowed options");
+    desc.add_options()
+            ("help,h", "produce help message")
+            ;
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+    return std::tuple<po::variables_map, po::options_description>{vm, desc};
+}
+
+static bool is_valid_name(std::string name) {
     for(auto s: name) {
         if(!isdigit(s) && !isalpha(s) && s != '_') {
             return false;
@@ -20,7 +33,11 @@ static bool isValidName(std::string name) {
 }
 
 int merrno(int argc, char *argv[]) {
-    command_line_options_t command_line_options{argc, argv};
+    std::tuple<po::variables_map, po::options_description> info = get_variables_map(argc, argv);
+    if (std::get<0>(info).count("help")) {
+        std::cout << std::get<1>(info) << "\n";
+        return 0;
+    }
     if (argc != 1) {
         std::cerr << "merrno: too many arguments" << std::endl;
         AbstractRunner::merrno = -1;
@@ -32,13 +49,21 @@ int merrno(int argc, char *argv[]) {
 }
 
 int mpwd(int argc, char *argv[]) {
-    command_line_options_t commandLineOptions{argc, argv};
+    std::tuple<po::variables_map, po::options_description> info = get_variables_map(argc, argv);
+    if (std::get<0>(info).count("help")) {
+        std::cout << std::get<1>(info) << "\n";
+        return 0;
+    }
     std::cout << boost::filesystem::current_path() << std::endl;
     return 0;
 }
 
 int mcd(int argc, char *argv[]) {
-    command_line_options_t commandLineOptions{argc, argv};
+    std::tuple<po::variables_map, po::options_description> info = get_variables_map(argc, argv);
+    if (std::get<0>(info).count("help")) {
+        std::cout << std::get<1>(info) << "\n";
+        return 0;
+    }
     if (argc > 2) {
         std::cerr << "mcd: too many arguments" << std::endl;
         return -1;
@@ -54,7 +79,11 @@ int mcd(int argc, char *argv[]) {
 }
 
 int mexit(int argc, char *argv[]) {
-    command_line_options_t commandLineOptions(argc, argv);
+    std::tuple<po::variables_map, po::options_description> info = get_variables_map(argc, argv);
+    if (std::get<0>(info).count("help")) {
+        std::cout << std::get<1>(info) << "\n";
+        return 0;
+    }
     if (argc == 1){
         exit(EXIT_SUCCESS);
     }
@@ -69,7 +98,11 @@ int mexit(int argc, char *argv[]) {
 }
 
 int mecho(int argc, char *argv[]) {
-    command_line_options_t commandLineOptions(argc, argv);
+    std::tuple<po::variables_map, po::options_description> info = get_variables_map(argc, argv);
+    if (std::get<0>(info).count("help")) {
+        std::cout << std::get<1>(info) << "\n";
+        return 0;
+    }
     if (argc > 1) {
         for (size_t i = 1; i < argc - 1; ++i) {
             std::cout << argv[i] << " ";
@@ -83,7 +116,11 @@ int mecho(int argc, char *argv[]) {
 }
 
 int mexport(int argc, char *argv[]) {
-    command_line_options_t commandLineOptions(argc, argv);
+    std::tuple<po::variables_map, po::options_description> info = get_variables_map(argc, argv);
+    if (std::get<0>(info).count("help")) {
+        std::cout << std::get<1>(info) << "\n";
+        return 0;
+    }
     std::string name, value;
     char * token;
     for (size_t i = 1; i < argc; ++i) {
@@ -99,7 +136,7 @@ int mexport(int argc, char *argv[]) {
             else {
                 value = token;
             }
-            if (isValidName(name)) {
+            if (is_valid_name(name)) {
                 setenv(name.data(), value.data(), true);
             }
             else {

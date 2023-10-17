@@ -37,7 +37,7 @@ std::unique_ptr<Command> AbstractRunner::getNextCommand(bool &flag) {
     case EXTERNAL:
       return std::make_unique<ExternalCommand>(std::move(commandArgv));
     case SCRIPT:
-      return std::make_unique<ScriptCommand>(std::move(commandArgv));
+      return std::make_unique<ScriptCommand>(commandArgv);
     default:
       std::cerr << "*** unknown command type" << std::endl;
       throw std::exception();
