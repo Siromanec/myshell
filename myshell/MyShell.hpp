@@ -12,7 +12,6 @@
 
 class MyShell: public AbstractRunner {
   std::unique_ptr<PromptPutter> promptPutter;
-  HistorySaver historySaver;
 public:
   //TODO розібратися, як працює бібліотека "readline"; огорнути її в клас-адаптер (можливо, не один), якщо для вінди (mingw) цієї ліби нема, або є подібна з іншим інтерфейсом
   virtual std::vector<std::string> readNext(bool &flag) override; //TODO use userinput
