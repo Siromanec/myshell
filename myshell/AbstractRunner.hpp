@@ -21,6 +21,7 @@ public:
   static const std::vector<std::string> internal_commands;
   static const std::string name;
   static const std::string extension;
+  static int merrno;
 
 
   virtual void run();
