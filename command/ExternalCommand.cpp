@@ -35,16 +35,9 @@ void ExternalCommand::execute() {
     }
     else{
         // We are the child
-        std::vector<std::string> args = getArgvAsStrings();
-        std::string victim_name(args[0]);
-        std::vector<const char*> arg_for_c;
-        for(const auto& s: args)
-            arg_for_c.push_back(s.c_str());
-        arg_for_c.push_back(nullptr);
+        execvp(getArgv()[0], const_cast<char* const*>(getArgv()));
 
-        execvp(victim_name.c_str(), const_cast<char* const*>(arg_for_c.data()));
-
-        std::cerr << "Parent: Failed to execute " << victim_name << " \n\tCode: " << errno << std::endl;
+        std::cerr << "Parent: Failed to execute " << getArgv()[0] << " \n\tCode: " << errno << std::endl;
         exit(EXIT_FAILURE);   // exec never returns
     }
 

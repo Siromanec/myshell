@@ -26,9 +26,6 @@ public:
   virtual const char** getArgv(){
     return cstrings.data();
   }
-  virtual std::vector<std::string> getArgvAsStrings(){
-      return argv;
-  }
   virtual size_t getArgc(){
     return cstrings.size();
   }
