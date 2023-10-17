@@ -6,19 +6,25 @@
 #define MYSHELL_HISTORYSAVER_HPP
 
 
+#include <string>
+#include <boost/filesystem/path.hpp>
+#include <readline/history.h>
+#include <iostream>
 
-#define MAXLINES 64
-
-
-// saves history to ~/.history
 class HistorySaver {
-
+  size_t maxnlines;
 public:
-  HistorySaver();
-  ~HistorySaver();
+  HistorySaver(){
+    if(history_truncate_file(NULL, maxnlines) || read_history(NULL){
+      std::cerr << "*** could not load history ***" << std::endl;
+    };
+  };
+  ~HistorySaver(){
+    if(write_history(NULL){
+      std::cerr << "*** could not save history ***" << std::endl;
+    };
+  }
 };
-
-
 
 
 #endif //MYSHELL_HISTORYSAVER_HPP

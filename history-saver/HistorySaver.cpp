@@ -5,17 +5,19 @@
 #include <boost/filesystem/path.hpp>
 #include <readline/history.h>
 #include <iostream>
+#include <fstream>
 
 #include "HistorySaver.hpp"
 
 HistorySaver::HistorySaver() {
-  if(history_truncate_file(NULL, MAXLINES) || read_history(NULL)){
-    std::cerr << "*** could not load history ***" << std::endl;
-  };
+  if(history_truncate_file(path.c_str(), MAXLINES) || read_history(path.c_str())){
+    std::cerr << "*** could not truncate or load history ***" << std::endl;
+  }
 }
 
 HistorySaver::~HistorySaver() {
-  if(write_history(NULL)){
+  if(write_history(path.c_str())){
     std::cerr << "*** could not save history ***" << std::endl;
   };
 }
+const std::string HistorySaver::path{"~/.msh_history"};
