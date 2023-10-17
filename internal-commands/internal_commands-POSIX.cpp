@@ -6,6 +6,7 @@
 #include <iostream>
 #include "unistd.h"
 #include "ScriptRunner.hpp"
+#include "AbstractRunner.hpp"
 #include <filesystem>
 //TODO main-like implementations of internal commands
 
@@ -20,20 +21,14 @@ static bool isValidName(std::string name) {
 
 int merrno(int argc, char *argv[]) {
     command_line_options_t command_line_options{argc, argv};
-    int status, pid;
-    pid = waitpid(-1, &status, 0);
-    if (pid == -1) {
-        if (errno == ECHILD) {
-            errno = 0;
-            return 0;
-        } else {
-            errno = -1;
-            return -1;
-        }
+    if (argc != 1) {
+        std::cerr << "merrno: too many arguments" << std::endl;
+        AbstractRunner::merrno = -1;
+        return -1;
     }
-    if (WIFEXITED(status)) {
-        return WEXITSTATUS(status);
-    }
+    std::cout << AbstractRunner::merrno << std::endl;
+    AbstractRunner::merrno = 0;
+    return 0;
 }
 
 int mpwd(int argc, char *argv[]) {
@@ -46,7 +41,6 @@ int mcd(int argc, char *argv[]) {
     command_line_options_t commandLineOptions{argc, argv};
     if (argc > 2) {
         std::cerr << "mcd: too many arguments" << std::endl;
-        errno = -1;
         return -1;
     }
     try {
@@ -54,7 +48,6 @@ int mcd(int argc, char *argv[]) {
     }
     catch (std::exception) {
             std::cerr << "mcd: " << argv[1] << ": No such file or directory" << std::endl;
-            errno = -1;
             return - 1;
         }
     return 0;
@@ -68,7 +61,7 @@ int mexit(int argc, char *argv[]) {
     for(size_t i = 0; i < strlen(argv[1]); ++i) {
         if(!isdigit(argv[1][i])) {
             std::cerr << "mexit: " << argv[1]<< ": numeric argument required" << std::endl;
-            errno = -1;
+            AbstractRunner::merrno = -1;
             exit(EXIT_FAILURE);
         }
     }
@@ -111,13 +104,11 @@ int mexport(int argc, char *argv[]) {
             }
             else {
                 std::cerr << "mexport: '" << name << "': not a valid identifier";
-                errno = -1;
                 return -1;
             }
         }
         else {
             std::cerr << "mexport: '" << argv[i] << "': not a valid identifier";
-            errno = -1;
             return -1;
         }
     }

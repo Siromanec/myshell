@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 
 #include "ExternalCommand.hpp"
+#include "AbstractRunner.hpp"
 
 
 void ExternalCommand::execute() {
@@ -25,6 +26,9 @@ void ExternalCommand::execute() {
 #endif
         int status;
         waitpid(pid, &status, 0);
+        if (WIFEXITED(status)) {
+            AbstractRunner::merrno = WEXITSTATUS(status);
+        }
 #ifdef DEBUG
         std::cout << "Parent: child stopped, exit code: " << status << std::endl;
 #endif
