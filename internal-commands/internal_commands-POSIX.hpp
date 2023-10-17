@@ -7,6 +7,8 @@
 #include "options_parser.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "boost/program_options.hpp"
+namespace po = boost::program_options;
 
 //"merrno",
 //"mpwd",
@@ -34,6 +36,8 @@ int mdot_command(int argc, char *argv[]);
 
 int mdummy_command(int argc, char*argv[]);
 
-static bool isValidName(std::string name);
+static bool is_valid_name(std::string name);
+
+std::tuple<po::variables_map, po::options_description> get_variables_map(int argc, char *argv[]);
 #endif //MYSHELL_INTERNAL_COMMANDS_POSIX_HPP
 
