@@ -6,18 +6,19 @@
 #define MYSHELL_HISTORYSAVER_HPP
 
 
-#include <string>
-#include <boost/filesystem/path.hpp>
 
+#define MAXLINES 64
+
+
+// saves history to ~/.history
 class HistorySaver {
-  boost::filesystem::wpath path;
+
 public:
   HistorySaver();
   ~HistorySaver();
-
-  virtual void save(){};
-
 };
+
+
 
 
 #endif //MYSHELL_HISTORYSAVER_HPP

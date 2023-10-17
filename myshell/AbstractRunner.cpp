@@ -57,6 +57,7 @@ const std::vector<std::string> AbstractRunner::internal_commands{
 
 const std::string AbstractRunner::name{"myshell"};
 const std::string AbstractRunner::extension{".msh"};
+int AbstractRunner::merrno = 0;
 
 std::regex wildcardToRegex(const std::string &wildcard, bool caseSensitive) {
   // Note It is possible to automate checking if filesystem is case sensitive or not (e.g. by performing a test first time this function is ran)

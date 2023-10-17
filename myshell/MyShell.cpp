@@ -41,6 +41,6 @@ std::vector<std::string> MyShell::readNext(bool &flag) {
 }
 
 
-MyShell::MyShell() {
+MyShell::MyShell(): historySaver{}{
   using_history();
 }
