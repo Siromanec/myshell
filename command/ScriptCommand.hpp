@@ -12,11 +12,7 @@
 class ScriptCommand: public ExternalCommand {
 public:
 //  using ExternalCommand::ExternalCommand; //TODO rewrite for diffirend constructor (or maybe not) (myshell ./.msh vs ./.msh)
-    explicit ScriptCommand(std::vector<std::string> &argv){
-        argv.insert(argv.begin(), "myshell");
-        for(const auto& string : argv)
-            cstrings.push_back(string.c_str());
-    }
+    explicit ScriptCommand(std::vector<std::string> &argv);
 
   void execute() override;
 

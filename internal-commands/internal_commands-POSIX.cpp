@@ -7,6 +7,7 @@
 #include "unistd.h"
 #include "ScriptRunner.hpp"
 #include "AbstractRunner.hpp"
+#include "HistorySaver.hpp"
 #include <filesystem>
 //TODO main-like implementations of internal commands
 
@@ -56,15 +57,18 @@ int mcd(int argc, char *argv[]) {
 int mexit(int argc, char *argv[]) {
     command_line_options_t commandLineOptions(argc, argv);
     if (argc == 1){
+        HistorySaver::save();
         exit(EXIT_SUCCESS);
     }
     for(size_t i = 0; i < strlen(argv[1]); ++i) {
         if(!isdigit(argv[1][i])) {
             std::cerr << "mexit: " << argv[1]<< ": numeric argument required" << std::endl;
             AbstractRunner::merrno = -1;
+            HistorySaver::save();
             exit(EXIT_FAILURE);
         }
     }
+    HistorySaver::save();
     exit(atoi(argv[1]));
 }
 
