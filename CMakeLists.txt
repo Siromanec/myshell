@@ -67,7 +67,7 @@ add_executable(${PROJECT_NAME} main.cpp
 		myshell/MyShell.cpp myshell/MyShell.hpp myshell/ScriptRunner.cpp myshell/ScriptRunner.hpp
 		internal-commands/internal_commands-POSIX.cpp internal-commands/internal_commands-POSIX.hpp
 		prompt-putter/PromptPutter.hpp prompt-putter/PromptPutter.cpp
-		history-saver/HistorySaver.hpp)
+		history-saver/HistorySaver.hpp history-saver/HistorySaver.cpp)
 
 #! Put path to your project headers
 if (DEBUG)
