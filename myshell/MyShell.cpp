@@ -39,3 +39,8 @@ std::vector<std::string> MyShell::readNext(bool &flag) {
   delete[] line;
   return argv;
 }
+
+
+MyShell::MyShell() {
+  using_history();
+}

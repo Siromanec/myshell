@@ -11,7 +11,7 @@ mecho "Hee Hee"
 mecho and i replied
 mecho "Ha? Ha?"
 mecho he said:
-mecho "***", - and sighing with relief he uttered: "i've escaped..."
+mecho "* * *", - and sighing with relief he uttered: "i've escaped..."
 mecho "and you can also *?make something great"
 mecho it's not called *?make
 
@@ -23,4 +23,4 @@ mecho it's not called *?make
 echo mecho
 mecho echo
 
-mecho ../../../../
+mecho ../../../../	
