@@ -62,10 +62,12 @@ set(CLASSDIRS options_parser myshell command internal-commands prompt-putter his
 add_executable(${PROJECT_NAME} main.cpp
 				options_parser/options_parser.cpp options_parser/options_parser.h
 		myshell/AbstractRunner.cpp myshell/AbstractRunner.hpp
-		command/Command.cpp command/Command.hpp command/InternalCommand.cpp command/InternalCommand.hpp command/ExternalCommand.cpp command/ExternalCommand.hpp command/ScriptCommand.cpp command/ScriptCommand.hpp
+		command/Command.cpp command/Command.hpp command/InternalCommand.cpp
+		command/InternalCommand.hpp command/ExternalCommand.cpp command/ExternalCommand.hpp command/ScriptCommand.cpp command/ScriptCommand.hpp
 		myshell/MyShell.cpp myshell/MyShell.hpp myshell/ScriptRunner.cpp myshell/ScriptRunner.hpp
 		internal-commands/internal_commands-POSIX.cpp internal-commands/internal_commands-POSIX.hpp
-		prompt-putter/PromptPutter.hpp prompt-putter/PromptPutter.cpp history-saver/HistorySaver.hpp history-saver/HistorySaverToFile.cpp history-saver/HistorySaverToFile.hpp)
+		prompt-putter/PromptPutter.hpp prompt-putter/PromptPutter.cpp
+		history-saver/HistorySaver.hpp)
 
 #! Put path to your project headers
 if (DEBUG)
