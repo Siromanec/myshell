@@ -7,10 +7,16 @@
 
 
 #include "Command.hpp"
+#include "ExternalCommand.hpp"
 
-class ScriptCommand: public Command {
+class ScriptCommand: public ExternalCommand {
 public:
-  using Command::Command; //TODO rewrite for diffirend constructor (or maybe not) (myshell ./.msh vs ./.msh)
+//  using ExternalCommand::ExternalCommand; //TODO rewrite for diffirend constructor (or maybe not) (myshell ./.msh vs ./.msh)
+    explicit ScriptCommand(std::vector<std::string> &argv){
+        argv.insert(argv.begin(), "myshell");
+        for(const auto& string : argv)
+            cstrings.push_back(string.c_str());
+    }
 
   void execute() override;
 

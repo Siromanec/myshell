@@ -15,6 +15,7 @@ enum CommandType {INTERNAL, EXTERNAL, SCRIPT} ;
 
 class Command {
 //  const std::vector<std::string> argv;
+protected:
   std::vector<const char*> cstrings;
   const std::vector<std::string> argv;
   // i am saving this because of dangling pointers
@@ -23,7 +24,10 @@ public:
     for(const auto& string : this->argv)
       cstrings.push_back(string.c_str());
   }
-  virtual const char** getArgv(){
+
+    Command() {}
+
+    virtual const char** getArgv(){
     return cstrings.data();
   }
   virtual size_t getArgc(){
